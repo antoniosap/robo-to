@@ -1,0 +1,28 @@
+4.2.2021
+--------
+
+conda deactivate
+sudo apt install ros-foxy-desktop
+sudo apt install ~nros-foxy-rqt*
+rosdep update
+
+NUOVI PACKAGES:
+cd <..>/src
+git clone ....
+cd ..
+rosdep install -i --from-path src --rosdistro foxy
+colcon build
+
+DOCKER:
+docker run -it  -v="/home/aldebaran/workspace-ros2/:/home/" --name=ros2 ros:foxy bash
+
+INFO:
+https://automaticaddison.com/how-to-install-and-launch-ros2-using-docker/
+https://docs.docker.com/engine/reference/commandline/run/
+
+2018
+----
+
+conda activate ros-env
+rosparam set joy_node/dev "/dev/input/js0"
+rosrun joy joy_node
