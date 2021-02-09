@@ -12,6 +12,7 @@ git clone ....
 cd ..
 rosdep install -i --from-path src --rosdistro foxy
 colcon build
+. install/setup.bash
 
 DOCKER:
 docker run -it  -v="/home/aldebaran/workspace-ros2/:/home/" --name=ros2 ros:foxy bash
@@ -20,9 +21,27 @@ INFO:
 https://automaticaddison.com/how-to-install-and-launch-ros2-using-docker/
 https://docs.docker.com/engine/reference/commandline/run/
 
+JOYSTICK:
+site: https://wiki.ros.org/joy/Tutorials/ConfiguringALinuxJoystick
+sudo apt install joystick jstest-gtk
+ros2 run joy joy_node
+<<ros2 topic list
+>>/joy
+>>/joy/set_feedback
+>>/parameter_events
+>>/rosout
+ros2 topic list -t
+<<ros2 topic echo /joy1/joy
+
+
+CONSOLE ROS MESSAGES:
+ros2 run rqt_console rqt_console
+
+
 2018
 ----
 
+ROS 1:
 conda activate ros-env
 rosparam set joy_node/dev "/dev/input/js0"
 rosrun joy joy_node

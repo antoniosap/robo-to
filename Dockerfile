@@ -9,5 +9,6 @@ RUN apt-get update && apt-get install -y \
     ros-foxy-example-interfaces \
     ros-foxy-test-msgs \
     ros-foxy-ros2-control \
-    ros-foxy-gazebo-msgs && \
+    ros-foxy-gazebo-msgs \
+    rospack-tools && \
     rm -rf /var/lib/apt/lists/*
