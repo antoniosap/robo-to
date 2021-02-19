@@ -16,10 +16,9 @@ def generate_launch_description():
     joy_teleop_parameters_file = os.path.join('config', 'joy_teleop.yaml')
 
     return LaunchDescription([
-        # / joy1 / joy [sensor_msgs / msg / Joy]
-        # / joy1 / joy / set_feedback [sensor_msgs / msg / JoyFeedback]
-        # / parameter_events [rcl_interfaces / msg / ParameterEvent]
-        # / rosout [rcl_interfaces / msg / Log]
+         # / joy1 / joy[sensor_msgs / msg / Joy]
+         # / joy1 / joy / set_feedback[sensor_msgs / msg / JoyFeedback]
+         # / joy_teleop1 / joy[sensor_msgs / msg / Joy]
         Node(
             package='joy',
             namespace='joy1',
@@ -28,10 +27,13 @@ def generate_launch_description():
         ),
         #
         DeclareLaunchArgument('teleop_config', default_value=joy_teleop_parameters_file),
+        DeclareLaunchArgument('cmd_vel', default_value='input_joy/cmd_vel'),
         Node(
             package='joy_teleop',
+            namespace='joy_teleop_adapter',
             executable='joy_teleop',
-            parameters=[LaunchConfiguration('teleop_config')]),
+            parameters=[LaunchConfiguration('teleop_config')],
+        ),
         #
         Node(
             package='turtlesim',
