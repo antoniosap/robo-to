@@ -50,6 +50,7 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>joy_teleop</build_depend>
+  <build_depend>ros_controllers</build_depend>
   <build_export_depend>joy_teleop</build_export_depend>
   <exec_depend>joy_teleop</exec_depend>
 
