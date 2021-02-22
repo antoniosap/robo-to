@@ -54,7 +54,7 @@ if __name__ == '__main__':
             batteryState.publish(battery)
             #
             rate.sleep()
-    except Exception,error:
+    except Exception as error:
         rospy.logerr("Error on Main: "+str(error))
     except rospy.ROSInterruptException:
         board.disconnect()

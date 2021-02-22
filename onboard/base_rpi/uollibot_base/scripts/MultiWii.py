@@ -892,7 +892,7 @@ class MultiWii(object):
 		rdata = self._sendAndGet(self._MSPCOMMANDS.MSP_SERVO, 16)
 		if rdata:
 			for i in range(0, 8):
-				print type(i)
+				# print(type(i))
 				servos[i] = self._toUInt16(rdata[2*i:2*i+2])
 			#end for
 		#end if
