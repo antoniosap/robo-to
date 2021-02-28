@@ -1,17 +1,17 @@
 21.2.2018
 ---------
 
-TODO: portare rpi a python 3.8
-
 BASE ACCESS WIFI:
-ssh pi@192.168.147.85 oppure ssh@rosrobot
+ssh pi@192.168.147.85 oppure ssh pi@rosrobot
+ora è un ubuntu 20.04 LTS con python 3.8.5
 
 
 2018 --> 15.2.2021
 ------------------
 
 ROS 1 NOETIC:
-rosdep install -i --from-path src --rosdistro noetic
+rosdep install -i --from-path src --rosdistro noetic -r -y     <-- ros install from sources
+rosdep install -i --from-path src
 catkin_make
 
 rosparam set joy_node/dev "/dev/input/js0"
@@ -59,6 +59,21 @@ ros2 run rqt_console rqt_console
 
 INFO SITES ROS2:
 https://design.ros2.org/articles/ros_command_line_arguments.html
+
+-------------------------------------------
+ROS 1 NOETIC INSTALL:
+sudo apt-get install python3-rosdep python3-rosinstall-generator python3-vcstool build-essential
+rosinstall_generator desktop --rosdistro noetic --deps --tar > noetic-desktop.rosinstall
+mkdir ./src
+vcs import --input noetic-desktop.rosinstall ./src
+rosdep install --from-paths ./src --ignore-src --rosdistro noetic -y --os=debian:buster
+sudo dphys-swapfile swapoff
+sudo /etc/dphys-swapfile
+sudo nano /etc/dphys-swapfile
+sudo dphys-swapfile setup
+sudo dphys-swapfile swapon
+sudo src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/noetic -j1 -DPYTHON_EXECUTABLE=/usr/bin/python3
+
 
 
 
