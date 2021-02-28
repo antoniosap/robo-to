@@ -3,7 +3,6 @@
 
 BASE ACCESS WIFI:
 ssh pi@192.168.147.85 oppure ssh pi@rosrobot
-ora è un ubuntu 20.04 LTS con python 3.8.5
 
 
 2018 --> 15.2.2021
