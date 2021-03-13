@@ -4,6 +4,17 @@
 BASE ACCESS WIFI:
 ssh pi@192.168.147.85 oppure ssh pi@rosrobot
 
+XACRO, URDF MACRO DESCRIPTON:
+rosrun xacro xacro ../urdf/pan_tilt.urdf
+rosrun xacro xacro ../urdf/pan_tilt.xacro
+
+URDF:
+check_urdf ../urdf/pan_tilt.urdf
+LAUNCH:
+roslaunch robo-to view_pan_tilt_urdf.launch
+MOVEIT:
+roslaunch moveit_setup_assistant setup_assistant.launch
+
 
 2018 --> 15.2.2021
 ------------------
