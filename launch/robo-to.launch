@@ -3,13 +3,13 @@
     <node pkg="joy" name="saitek_joy" type="joy_node"/>
 
     <arg name="cmd_vel" default="input_joy/cmd_vel"/>
-    <arg name="teleop_config" default="config/joy_teleop.yaml"/>
+    <arg name="teleop_config" default="$(find robo-to)/config/joy_teleop.yaml"/>
 
     <rosparam file="$(arg teleop_config)" command="load"/>
     <node pkg="joy_teleop" name="joy_teleop" type="joy_teleop.py" >
         <remap from="cmd_vel" to="$(arg cmd_vel)"/>
     </node>
 
-    <node pkg="robo-to" name="robo-to" type="scripts/base_pc.py"/>
+    <node pkg="robo-to" name="robo_to" type="base_pc.py"/>
 
 </launch>
