@@ -10,6 +10,6 @@
         <remap from="cmd_vel" to="$(arg cmd_vel)"/>
     </node>
 
-    <node pkg="robo-to" name="robo_to" type="base_pc.py"/>
+    <node pkg="robo-to" name="robo_to" type="base_pc.py" output="screen"/>
 
 </launch>

@@ -16,20 +16,19 @@ import copy
 import rospy
 import moveit_commander
 import moveit_msgs.msg
-import geometry_msgs.msg
 from math import pi, dist, fabs, cos
-from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 import sensor_msgs.msg as sensor_msgs
 from std_msgs.msg import Bool, String
+from geometry_msgs.msg import Twist
 
 # ---------------------------------------------------------------------
 # sites info:
 #
 
 
-def btn_shutdown(data):
-    rospy.loginfo(f'{rospy.get_caller_id()} shutdown button {data.data}')
+def joy_front_camera(data):
+    rospy.loginfo(f'{rospy.get_caller_id()} joy_front_camera x:{data.linear.x} y:{data.linear.y}')
 
 
 if __name__ == '__main__':
@@ -40,7 +39,7 @@ if __name__ == '__main__':
     # begin node code
     rospy.loginfo(f'{node_name} Starting ')
     # sub
-    #rospy.Subscriber("/base/btn_shutdown", Bool, btn_shutdown)
+    rospy.Subscriber("front_camera/cmd_vel", Twist, joy_front_camera)
     # pub
     #pub_display8x8 = rospy.Publisher('/sensehat/led_panel', String, queue_size=10)
     #
