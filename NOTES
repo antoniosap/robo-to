@@ -14,6 +14,8 @@ LAUNCH:
 roslaunch robo-to view_pan_tilt_urdf.launch
 MOVEIT:
 roslaunch moveit_setup_assistant setup_assistant.launch
+ROBO-TO LAUNCH:
+roslaunch robo-to robo-to.launch
 
 
 2018 --> 15.2.2021
@@ -84,6 +86,9 @@ sudo dphys-swapfile setup
 sudo dphys-swapfile swapon
 sudo src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/noetic -j1 -DPYTHON_EXECUTABLE=/usr/bin/python3
 
++
+sudo apt install ros-noetic-rqt-controller-manager
+sudo apt install ros-noetic-ros-control ros-noetic-ros-controllers
 
 
 

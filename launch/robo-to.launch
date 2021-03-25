@@ -1,5 +1,10 @@
 <launch>
 
+    <!-- specify the planning pipeline -->
+    <arg name="pipeline" default="ompl"/>
+    <!-- By default, we are not in debug mode -->
+    <arg name="debug" default="false"/>
+
     <node pkg="joy" name="saitek_joy" type="joy_node"/>
 
     <arg name="cmd_vel" default="input_joy/cmd_vel"/>
@@ -10,6 +15,29 @@
         <remap from="cmd_vel" to="$(arg cmd_vel)"/>
     </node>
 
-    <node pkg="robo-to" name="robo_to" type="base_pc.py" output="screen"/>
+    <!--
+        questo ha un movimento hard coded
+        <node pkg="robo-to" name="robo_to" type="base_pc_calib.py" output="screen"/>
+    -->
 
+    <!--
+        MoveIt come movement manager
+    -->
+    <node pkg="robo-to" name="robo_to" type="moveit_base_pc.py" output="screen"/>
+
+    <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+    <include file="$(find robo-to-moveit_pan_tilt_config)/launch/move_group.launch">
+        <arg name="allow_trajectory_execution" value="true"/>
+        <arg name="fake_execution" value="false"/>
+        <arg name="info" value="true"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="pipeline" value="$(arg pipeline)"/>
+    </include>
+
+    <!--
+    <include file="$(find robo-to-moveit_pan_tilt_config)/launch/ros_controllers.launch"/>
+    -->
+    <!--
+    <include file="$(find robo-to-moveit_pan_tilt_config)/launch/pan_tilt_moveit_controller_manager.launch.xml"/>
+    -->
 </launch>

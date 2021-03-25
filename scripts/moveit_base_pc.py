@@ -12,37 +12,36 @@ __email__ = "antoniosapuppo@yahoo.it"
 __status__ = "Development"
 
 import sys
-import copy
 import rospy
 import moveit_commander
 import moveit_msgs.msg
-from math import pi, dist, fabs, cos
 from moveit_commander.conversions import pose_to_list
-import sensor_msgs.msg as sensor_msgs
+from sensor_msgs.msg import JointState
 from std_msgs.msg import Bool, String, Int16
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Pose
 
 
 # ---------------------------------------------------------------------
 # sites info:
 #
 
-
 class BasePc:
     def __init__(self):
         self.node_name = 'base_pc'
         # registering node in ros master
-        moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node(self.node_name, log_level=rospy.INFO)
         rospy.on_shutdown(self.shutdown)
+        # moveit
+        moveit_commander.roscpp_initialize(sys.argv)
+        self.pan_tilt_robot = moveit_commander.RobotCommander()
+        self.scene = moveit_commander.PlanningSceneInterface()
+        self.group_name = "pan_tilt_group"
+        self.move_group = moveit_commander.MoveGroupCommander(self.group_name)
+        self.display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
+                                                       moveit_msgs.msg.DisplayTrajectory,
+                                                       queue_size=20)
         # begin node code
-        rospy.loginfo(f'{self.node_name} Starting ')
-        self.cam_pan = 90
-        self.cam_tilt = 90
-        self.scale_x = 1.0
-        self.scale_y = 1.0
-        self.cam_pan_range = (32, 120)
-        self.cam_tilt_range = (70, 185)
+        rospy.loginfo(f'{self.node_name} Starting: please, arm motors ')
         # pub
         self.pub_cam_pan = rospy.Publisher('/base/cam_pan', Int16, queue_size=10)
         self.pub_cam_tilt = rospy.Publisher('/base/cam_tilt', Int16, queue_size=10)
@@ -55,19 +54,12 @@ class BasePc:
 
     def shutdown(self):
         rospy.loginfo(f'{base_pc.node_name} Shutdown on progess')
-        self.home_off()
-        self.pub_cam_pan.publish(self.cam_pan)
-        self.pub_cam_tilt.publish(self.cam_tilt)
 
     def home_off(self):
-        self.cam_pan = 90  # zeroing pan tilt camera mount
-        self.cam_tilt = 90
+        pass
 
     def home_on(self):
-        self.cam_pan = 90  # zeroing pan tilt camera mount
-        self.cam_tilt = 185
-        self.pub_cam_pan.publish(self.cam_pan)
-        self.pub_cam_tilt.publish(self.cam_tilt)
+        pass
 
     def spin(self):
         rospy.sleep(0.1)
@@ -77,14 +69,20 @@ class BasePc:
             rate.sleep()
 
     def joy_front_camera(self, data):
-        rospy.loginfo(f'{rospy.get_caller_id()}/joy_front_camera(x:{data.linear.x},y:{data.linear.y})')
-        self.cam_pan += int(data.linear.y * self.scale_y)
-        self.cam_pan = self.clamp(self.cam_pan, self.cam_pan_range[0], self.cam_pan_range[1])
-        self.cam_tilt += int(data.linear.x * self.scale_x)
-        self.cam_tilt = self.clamp(self.cam_tilt, self.cam_tilt_range[0], self.cam_tilt_range[1])
-        self.pub_cam_pan.publish(self.cam_pan)
-        self.pub_cam_tilt.publish(self.cam_tilt)
-        rospy.loginfo(f'{rospy.get_caller_id()}/current(x:{self.cam_pan},y:{self.cam_tilt})')
+        rospy.loginfo(f'{rospy.get_caller_id()}: joy_front_camera(x:{data.linear.x},y:{data.linear.y})')
+        # moveit version
+        joint_goal = self.move_group.get_current_joint_values()
+        joint_goal[0] += data.linear.x * 30
+        joint_goal[1] += data.linear.y * 30
+        rospy.loginfo(f'{rospy.get_caller_id()}: joint_goal: {joint_goal}')
+        rospy.loginfo("1")
+        self.move_group.go(joint_goal, wait=True)
+        rospy.loginfo("2")
+        self.move_group.stop()
+        rospy.loginfo("3")
+        joint_goal_final = self.move_group.get_current_joint_values()
+        rospy.loginfo("4")
+        rospy.loginfo(f'{rospy.get_caller_id()}: joint_goal_final(x:{joint_goal[0]},y:{joint_goal[1]})')
 
 
 if __name__ == '__main__':

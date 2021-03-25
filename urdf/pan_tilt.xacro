@@ -54,7 +54,7 @@
     <child link="pan_link"/>
     <origin xyz="0 0 0.1"/>
     <axis xyz="0 0 1" />
-    <limit effort="300" velocity="0.1" lower="-3.14" upper="3.14"/>
+    <limit effort="300" velocity="0.1" lower="32" upper="120"/>
     <dynamics damping="50" friction="1"/>
   </joint>
 
@@ -82,7 +82,7 @@
     <child link="tilt_link"/>
     <origin xyz="0 0 0.2"/>
     <axis xyz="0 1 0" />
-    <limit effort="300" velocity="0.1" lower="-4.64" upper="-1.5"/>
+    <limit effort="300" velocity="0.1" lower="70" upper="185"/>
     <dynamics damping="50" friction="1"/>
   </joint>
 
