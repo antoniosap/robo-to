@@ -17,7 +17,7 @@
 
     <!--
         questo ha un movimento hard coded
-        <node pkg="robo-to" name="robo_to" type="base_pc_calib.py" output="screen"/>
+        <node pkg="robo-to" name="robo_to" type="pan_tilt_calibration_controller.py" output="screen"/>
     -->
 
     <!--

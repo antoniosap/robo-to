@@ -90,5 +90,6 @@ sudo src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --
 sudo apt install ros-noetic-rqt-controller-manager
 sudo apt install ros-noetic-ros-control ros-noetic-ros-controllers
 
-
++
+conda install pyyaml rospkg
 
