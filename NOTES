@@ -16,6 +16,13 @@ MOVEIT:
 roslaunch moveit_setup_assistant setup_assistant.launch
 ROBO-TO LAUNCH:
 roslaunch robo-to robo-to.launch
+OPPURE:
+roslaunch robo-to-moveit_pan_tilt_config demo.launch
+rosrun robo-to pan_tilt_message_adapter.py
+OPPURE:
+roslaunch robo-to-moveit_pan_tilt_config ros_controllers.launch
+MOVEIT COMMAND LINE:
+rosrun moveit_commander moveit_commander_cmdline.py
 
 
 2018 --> 15.2.2021

@@ -27,7 +27,7 @@ from geometry_msgs.msg import Twist, Pose
 
 class BasePc:
     def __init__(self):
-        self.node_name = 'base_pc'
+        self.node_name = 'pan_tilt_moveit_base_pc'
         # registering node in ros master
         rospy.init_node(self.node_name, log_level=rospy.INFO)
         rospy.on_shutdown(self.shutdown)
@@ -46,7 +46,7 @@ class BasePc:
         self.pub_cam_pan = rospy.Publisher('/base/cam_pan', Int16, queue_size=10)
         self.pub_cam_tilt = rospy.Publisher('/base/cam_tilt', Int16, queue_size=10)
         # sub - Don't subscribe until everything has been initialized.
-        rospy.Subscriber("front_camera/cmd_vel", Twist, self.joy_front_camera)
+        rospy.Subscriber("front_camera/cmd_vel", Twist, self.joy_command_front_camera)
 
     @staticmethod
     def clamp(n, minn, maxn):
@@ -68,10 +68,12 @@ class BasePc:
         while not rospy.is_shutdown():
             rate.sleep()
 
-    def joy_front_camera(self, data):
+    def joy_command_front_camera(self, data):
         rospy.loginfo(f'{rospy.get_caller_id()}: joy_front_camera(x:{data.linear.x},y:{data.linear.y})')
         # moveit version
+        rospy.loginfo("11")
         joint_goal = self.move_group.get_current_joint_values()
+        rospy.loginfo("12")
         joint_goal[0] += data.linear.x * 30
         joint_goal[1] += data.linear.y * 30
         rospy.loginfo(f'{rospy.get_caller_id()}: joint_goal: {joint_goal}')

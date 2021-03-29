@@ -21,18 +21,23 @@
     -->
 
     <!--
-        MoveIt come movement manager
+        MoveIt movement manager
     -->
-    <node pkg="robo-to" name="robo_to" type="moveit_base_pc.py" output="screen"/>
+    <node pkg="robo-to" name="pan_tilt_moveit_base_pc" type="pan_tilt_moveit_base_pc.py" output="screen"/>
+    <node pkg="robo-to" name="pan_tilt_message_adapter" type="pan_tilt_message_adapter.py" output="screen"/>
 
     <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+    <!--
     <include file="$(find robo-to-moveit_pan_tilt_config)/launch/move_group.launch">
         <arg name="allow_trajectory_execution" value="true"/>
-        <arg name="fake_execution" value="false"/>
+        <arg name="fake_execution" value="true"/>
         <arg name="info" value="true"/>
         <arg name="debug" value="$(arg debug)"/>
         <arg name="pipeline" value="$(arg pipeline)"/>
     </include>
+    -->
+
+    <include file="$(find robo-to-moveit_pan_tilt_config)/launch/demo.launch"/>
 
     <!--
     <include file="$(find robo-to-moveit_pan_tilt_config)/launch/ros_controllers.launch"/>
